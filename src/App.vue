@@ -1,5 +1,26 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios';
+import { apiConfig } from './api/config';
+
+const apiClient = axios.create({
+  baseURL: apiConfig.baseURL
+});
+
+const getTest = async () => {
+  try {
+    const response = await apiClient.get('/test');
+    return console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching data: ', error);
+    throw error;
+  }
+}
+
+onMounted(() => {
+  getTest()
+})
 </script>
 
 <template>
@@ -21,9 +42,11 @@ import HelloWorld from './components/HelloWorld.vue'
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
